@@ -5,9 +5,11 @@ App created in 24 hours during BrainCode hackaton.
 # Installation
 
 Using docker-compose
+
     docker-compose up
     
 Using npm
+
     git clone https://github.com/Valian/react-redux-websocket-cardgame
     cd react-redux-websocket-cardgame
     npm install -g nodemon
