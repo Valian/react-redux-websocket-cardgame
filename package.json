@@ -30,6 +30,7 @@
     "redux-devtools-chart-monitor": "^1.2.0",
     "redux-devtools-dock-monitor": "^1.1.0",
     "redux-devtools-log-monitor": "^1.0.5",
+    "redux-slider-monitor": "^1.0.2",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.10.0"
