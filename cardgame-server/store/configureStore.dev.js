@@ -6,6 +6,8 @@ export default function configureStore(initialState) {
     return createStore(
         rootReducer,
         initialState,
-        applyMiddleware(createLogger())
+        applyMiddleware(createLogger({
+            colors: false
+        }))
     )
 }
