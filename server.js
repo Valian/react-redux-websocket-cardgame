@@ -1,10 +1,18 @@
 var webpack = require('webpack')
+var http = require('http');
+var express = require('express')
 var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('./webpack.config')
+var config = require('./cardgame-client/webpack.config')
 
-var app = new (require('express'))()
+var createServerStore = require('./cardgame-server/store/configureStore')
+var startServerSocket = require('./cardgame-server/socket')
+
 var port = 3000
+
+var store = createServerStore()
+var app = new express();
+var server = http.createServer(app);
 
 
 var compiler = webpack(config)
@@ -12,13 +20,15 @@ app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output
 app.use(webpackHotMiddleware(compiler))
 
 app.use(function(req, res) {
-    res.sendFile(__dirname + '/index.html')
+    res.sendFile(__dirname + '/cardgame-client/index.html')
 })
 
-app.listen(port, '0.0.0.0', function(error) {
+server.listen(port, '0.0.0.0', function(error) {
     if (error) {
         console.error(error)
     } else {
         console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port)
     }
 })
+
+startServerSocket(server, store, port)

@@ -1,9 +1,7 @@
 import Server from 'socket.io';
 
-const port = 8090
-
-export default function startServer(app, store) {
-    const io = new Server(app).listen(port);
+module.exports = function startServer(app, store, port) {
+    const io = new Server(app);
     store.subscribe(
         () => io.emit('state', store.getState())
     );
@@ -13,5 +11,5 @@ export default function startServer(app, store) {
         socket.on('action', store.dispatch.bind(store));
     });
 
-    console.info("==> 🌎  Listening on port %s.", port)
+    console.info("==> 🌎  Socket.io listening on port %s.", port)
 }

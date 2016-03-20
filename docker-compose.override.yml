@@ -1,7 +1,3 @@
-server:
+web:
   volumes:
-    - ./cardgame-server:/srv/cardgame-server
-
-client:
-  volumes:
-    - ./cardgame-client:/srv/cardgame-client
+    - .:/srv

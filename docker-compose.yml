@@ -1,11 +1,5 @@
-server:
+web:
   build: .
-  command: npm run server
-  ports:
-    - "8090:8090"
-
-client:
-  build: .
-  command: npm run client
+  command: npm start
   ports:
     - "3000:3000"

@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "node cardgame-client/server.js",
-    "server": "nodemon cardgame-server/server.js --exec babel-node"
+    "start": "nodemon server.js --exec babel-node"
   },
   "repository": {
     "type": "git",
