@@ -1,18 +1,19 @@
+import Immutable from 'seamless-immutable'
+
+const MAX_PLAYERS = 5
+
 function getAndUpdateId(state) {
     state.idCounter = (state.idCounter || 0) + 1
     return state
 }
 
 export function addPlayer(state, socketId, playerName) {
-    if(typeof(playerName) != "string") {
+    if((typeof(playerName) != "string") || (state.players.length >= MAX_PLAYERS) || (state.phase != 'waitingForPlayers')) {
         return state
     }
-    var newState = Object.assign({}, state)
-    var players = newState.players || {}
-    players[playerName] = {name: playerName}
-    newState.players = players
-    newState.sockets[socketId].player = playerName
-    return newState
+    return state
+        .update('players', players => (players || Immutable({})).set(playerName, {name: playerName}))
+        .setIn(['sockets', socketId, 'player'] , playerName)
 }
 
 /*
