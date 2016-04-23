@@ -1,3 +1,4 @@
+import Immutable from 'seamless-immutable'
 import {should} from 'chai'
 import * as logic from '../gameLogic'
 
@@ -6,7 +7,7 @@ should()
 describe('Game logic', () => {
     describe('addPlayer function', () => {
 
-        const startingState = {
+        const startingState = Immutable({
             phase: 'waitingForPlayers',
             sockets: {
                 id1: {player: null, error: null},
@@ -15,30 +16,24 @@ describe('Game logic', () => {
                 id4: {player: null, error: null},
                 id5: {player: null, error: null},
                 id6: {player: null, error: null}
-            }
-        };
+            },
+            players: {}
+        });
 
         it('we should be able to add first player', () => {
             var stateWithPlayer = logic.addPlayer(startingState, 'id1', 'marian')
-            var newState = Object.assign({}, startingState, {
-                players: {
-                    marian: {name: 'marian'}
-                }
-            })
-            stateWithPlayer.should.be.deep.equal(newState)
+            stateWithPlayer.should.be.deep.equal(startingState
+                .set('players', { marian: {name: 'marian'}})
+                .setIn(['sockets', 'id1', 'player'], 'marian'))
         })
 
         it('we should be able to add second player', () => {
             var stateWithPlayer = logic.addPlayer(startingState, 'id1', 'marian')
             var stateWithTwoPlayers = logic.addPlayer(stateWithPlayer, 'id2','marek')
-            var newState = Object.assign({}, startingState, {
-                players: {
-                    marian: {name: 'marian'},
-                    marek: {name: 'marek'}
-                }
-            })
-            stateWithTwoPlayers.should.be.deep.equal(newState)
-            console.log(startingState)
+            stateWithTwoPlayers.should.be.deep.equal(startingState
+                .set('players', {marian: {name: 'marian'}, marek: {name: 'marek'}})
+                .setIn(['sockets', 'id1', 'player'], 'marian')
+                .setIn(['sockets', 'id2', 'player'], 'marek'))
         })
 
         it("we shouldn't be able to add sixth player", () => {
@@ -56,8 +51,9 @@ describe('Game logic', () => {
         })
 
         it("should ignore if not in waiting for player state", () => {
-            var state = {phase: 'other'}
-
+            var otherStatePhase = startingState.set('phase', 'other')
+            var notModifiedState = logic.addPlayer(otherStatePhase, 'id1', 'marian')
+            notModifiedState.should.be.deep.equal(otherStatePhase)
         })
 
     })
