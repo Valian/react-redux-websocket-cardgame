@@ -56,5 +56,11 @@ describe('Game logic', () => {
             notModifiedState.should.be.deep.equal(otherStatePhase)
         })
 
+        it("should not add player if already exists", () => {
+            var stateWithPlayer = logic.addPlayer(startingState, 'id1', 'marian')
+            var notModifiedState = logic.addPlayer(stateWithPlayer, 'id2', 'marian')
+            notModifiedState.should.be.deep.equal(stateWithPlayer)
+        })
+
     })
 })
