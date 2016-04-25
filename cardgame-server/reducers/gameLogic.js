@@ -11,6 +11,9 @@ export function addPlayer(state, socketId, playerName) {
     if((typeof(playerName) != "string") || (state.players.length >= MAX_PLAYERS) || (state.phase != 'waitingForPlayers')) {
         return state
     }
+    if(playerName in state.players) {
+        return state
+    }
     return state
         .update('players', players => (players || Immutable({})).set(playerName, {name: playerName}))
         .setIn(['sockets', socketId, 'player'] , playerName)
