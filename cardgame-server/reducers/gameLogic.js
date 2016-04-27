@@ -20,7 +20,7 @@ export function addPlayer(state, socketId, playerName) {
 }
 
 export function addSocket(state, socketId) {
-
+    return state.setIn(['sockets', socketId], {player: null, error: null})
 }
 
 /*
