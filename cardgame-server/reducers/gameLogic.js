@@ -19,6 +19,10 @@ export function addPlayer(state, socketId, playerName) {
         .setIn(['sockets', socketId, 'player'] , playerName)
 }
 
+export function addSocket(state, socketId) {
+
+}
+
 /*
 var state = {
     board: [

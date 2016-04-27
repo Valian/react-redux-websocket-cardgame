@@ -4,21 +4,24 @@ import * as logic from '../gameLogic'
 
 should()
 
+var baseState = Immutable({
+    phase: 'waitingForPlayers',
+    sockets: {},
+    players: {}
+})
+
 describe('Game logic', () => {
+    
     describe('addPlayer function', () => {
 
-        const startingState = Immutable({
-            phase: 'waitingForPlayers',
-            sockets: {
+        const startingState = baseState.set('sockets', {
                 id1: {player: null, error: null},
                 id2: {player: null, error: null},
                 id3: {player: null, error: null},
                 id4: {player: null, error: null},
                 id5: {player: null, error: null},
                 id6: {player: null, error: null}
-            },
-            players: {}
-        });
+        })
 
         it('we should be able to add first player', () => {
             var stateWithPlayer = logic.addPlayer(startingState, 'id1', 'marian')
@@ -40,14 +43,14 @@ describe('Game logic', () => {
             var stateWithFivePlayers = Object.assign({}, startingState, {
                 players: ['a', 'b', 'c', 'd', 'e'].map((name) => [name, {}])
             })
-            var stateWithStillFivePlayers = logic.addPlayer(stateWithFivePlayers, 'id6', 'f');
+            var stateWithStillFivePlayers = logic.addPlayer(stateWithFivePlayers, 'id6', 'f')
             stateWithStillFivePlayers.should.be.deep.equal(stateWithFivePlayers)
         })
 
         it("should ignore player if not string", () => {
             var invalidValues = [45, null, undefined, Object()]
-            var modifiedState = invalidValues.reduce((state, value) => logic.addPlayer(state, value), startingState);
-            modifiedState.should.be.deep.equal(startingState);
+            var modifiedState = invalidValues.reduce((state, value) => logic.addPlayer(state, value), startingState)
+            modifiedState.should.be.deep.equal(startingState)
         })
 
         it("should ignore if not in waiting for player state", () => {
@@ -63,4 +66,17 @@ describe('Game logic', () => {
         })
 
     })
+
+    describe('addSocket function', () => {
+
+        const startingState = baseState
+
+        it("should add new socket", () => {
+            var stateWithSocket = logic.addSocket(startingState, 'asdf')
+            stateWithSocket.should.be.deep.equal(startingState
+                .setIn(['sockets', 'asdf'], {player: null, error: null}))
+        })
+        
+    })
+    
 })
