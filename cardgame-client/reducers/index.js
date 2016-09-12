@@ -11,7 +11,7 @@ const reducers = combineReducers({
 const rootReducer = (state, action) => {
     switch(action.type) {
         case 'SET_STATE':
-            return Object.assign({}, state, action.payload)
+            return {...state, ...action.payload};
         default:
             return reducers(state, action)
     }
