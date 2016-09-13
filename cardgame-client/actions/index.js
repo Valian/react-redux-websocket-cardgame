@@ -14,4 +14,3 @@ const createRemoteAction = createMetaAction({remote: true})
 const createRemoteOnlyAction = createMetaAction({remoteOnly: true})
 
 export const setState = createAction('SET_STATE')
-export const addTodo = createRemoteOnlyAction('ADD_TODO')
